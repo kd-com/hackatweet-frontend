@@ -1,0 +1,165 @@
+@font-face {
+  font-family: 'Mont-Heavy';
+  src: url('/fonts/Mont-Heavy.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@import './variable.module.scss';
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background:$couleur-bg !important;
+  color:$blanc !important;
+  
+  font-size: 1em !important;
+}
+button {
+  margin:1em 0 !important;
+}
+.bleu {
+  background-color: $couleur-bleu;
+  font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  color: $blanc;
+  border: 2px solid $couleur-bleu;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius:25px;
+  transition:all .8s;
+  text-decoration:none;
+  max-width: 180px;
+  width: 180px;
+  min-width: 180px;
+  text-align: center;
+  display: inline-block;
+  font-size: 1em;
+  &:hover {
+    background-color: $couleur-bg;
+    border-color:$couleur-bleu;
+  }
+}
+
+.white {
+  background-color: $blanc;
+  font-size: 1em;
+  font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  color: $couleur-bleu;
+  border: 2px solid $blanc;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius:25px;
+  transition:all .8s;
+  text-decoration:none;
+  max-width: 180px;
+  width:180px;
+  min-width: 180px;
+  text-align: center;
+  display: inline-block;
+  &:hover {
+    background-color: $couleur-bg;
+    color:$blanc;
+    border-color:$couleur-bleu;
+  }
+}
+.white_confirm {
+  background-color: $blanc;
+  font-size: 1em;
+  font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  color: $couleur-bg;
+  border: 2px solid $blanc;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius:25px;
+  transition:all .8s;
+  text-decoration:none;
+  max-width: 180px;
+  width:180px;
+  min-width: 180px;
+  text-align: center;
+  display: inline-block;
+  &:hover {
+    background-color: $couleur-bleu;
+    color:$blanc;
+    border-color:$couleur-bleu;
+  }
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+    color:$blanc !important;
+}
+// Styles pour écraser Ant Design dans les modales
+.my-custom-modal {
+  text-align: center !important;
+  img {
+    margin-top:2em;
+    width: 80px !important;
+    height: auto !important;
+    object-fit: cover !important;
+    rotate: 180deg !important;;
+  }
+  .ant-modal {
+    border-radius: 25px !important;
+    max-width: 500px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .ant-modal-content {
+    background-color: $couleur-bg !important;
+    padding: 0 !important;
+    border-radius: 25px;
+  }
+
+  .ant-modal-header {
+    border-bottom: none !important;
+    padding: 20px 24px 0 !important;
+    background-color: $couleur-bg !important;
+    border-radius: 25px;
+  }
+
+  .ant-modal-title {
+    font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif !important;
+    color: $blanc !important;
+    text-align: center !important;
+  }
+
+  .ant-modal-close {
+    top: 0px !important;
+    right: 10px !important;
+    color: $blanc !important;
+  }
+
+  .ant-modal-body {
+    padding: 0 24px 24px !important;
+    font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif !important;
+  }
+}
+
+form {
+  display:flex;
+  flex-direction:column;
+  gap:1em;
+  vertical-align: center;
+  align-items: center;
+
+  input {
+    width:100%;
+    margin:0.5em 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid $blanc;
+    font-size: 1em;
+    font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+    background-color: $couleur-bg;
+    color: $blanc;
+    transition: all 0.3s ease;
+    &:focus {
+      border-color: $couleur-bleu;
+      outline: none;
+    }
+
+  }
+}
+
