@@ -11,7 +11,7 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background:$couleur-bg !important;
   color:$blanc !important;
-  
+
   font-size: 1em !important;
 }
 button {
@@ -86,9 +86,37 @@ button {
     border-color:$couleur-bleu;
   }
 }
+.logout {
+  background-color: $couleur-bg;
+  font-size: 0.8em;
+  font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  color: $blanc;
+  border: 1px solid $blanc;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius:25px;
+  transition:all .8s;
+  text-decoration:none;
+  max-width: 100px;
+  width:100px;
+  min-width: 100px;
+  text-align: center;
+  display: inline-block;
+  opacity: 0.6;
+  &:hover {
+    opacity:1;
+  }
+}
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
     color:$blanc !important;
+
+}
+@media (max-width:500px) {
+  h1 {
+    font-size:2em;
+  }
 }
 // Styles pour écraser Ant Design dans les modales
 .my-custom-modal {

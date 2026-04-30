@@ -2,8 +2,9 @@
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Tweets from '../components/Tweets';
 
-function Tweets() {
+function TweetsPage() {
   const user = useSelector((state) => state.user.value);
   const router = useRouter();
 
@@ -17,7 +18,7 @@ function Tweets() {
     return null; // ou un loader
   }
 
-  return <div>Page des tweets</div>;
+  return <Tweets />;
 }
 
-export default Tweets;
+export default TweetsPage;
