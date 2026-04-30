@@ -4,5 +4,14 @@
     "files": [
       "static/chunks/node_modules_next_dist_pages__error_js.js"
     ]
+<<<<<<< HEAD
+=======
+  },
+  "_app.js -> antd/lib/modal/style/index.css": {
+    "id": "_app.js -> antd/lib/modal/style/index.css",
+    "files": [
+      "static/chunks/node_modules_antd_lib_modal_style_index_css.js"
+    ]
+>>>>>>> dev_front
   }
 }
