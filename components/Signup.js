@@ -1,33 +1,25 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import DynamicButton from "./DynamicButton";
 
 function Signup({ onFinish }) {
   return (
-    <Form
-      name="signup"
-      layout="vertical"
-      onFinish={onFinish}
-    >
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Veuillez entrer votre email !' }]}
-      >
-        <Input type="email" />
-      </Form.Item>
-      <Form.Item
-        label="Mot de passe"
-        name="password"
-        rules={[{ required: true, message: 'Veuillez entrer votre mot de passe !' }]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" block>
-          S'inscrire
-        </Button>
-      </Form.Item>
-    </Form>
+    <div>
+        <div>
+        <img src="/tweeter.png" alt="Logo" className="logo_img" />
+          <h2>Create your Hackatweet account</h2>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const values = Object.fromEntries(formData.entries());
+            onFinish(values);
+          }}>
+            <input type="text" name="firstname" placeholder="First Name" required />
+            <input type="text" name="username" placeholder="Username" required />
+            <input type="password" name="password" placeholder="Password" required />
+            <DynamicButton text="Sign Up" className="white_confirm"/>
+          </form>
+        </div>
+    </div>
   );
 }
 

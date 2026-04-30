@@ -1,15 +1,20 @@
+import { useEffect } from "react";
 import '../styles/globals.scss';
 import Head from 'next/head';
 
-function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    // Charge le CSS de Modal côté client
+    import("antd/lib/modal/style/index.css");
+  }, []);
   return (
     <>
       <Head>
-        <title>Next.js App</title>
+        <title>Hakatweet</title>
       </Head>
       <Component {...pageProps} />
     </>
   );
 }
 
-export default App;
+export default MyApp;

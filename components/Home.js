@@ -50,8 +50,8 @@ function Home() {
         open={isSignupOpen}
         onCancel={() => setIsSignupOpen(false)}
         footer={null}
-        title="Créer un compte"
         centered
+        className="my-custom-modal"
       >
         <Signup onFinish={handleSignup} />
       </Modal>
@@ -59,8 +59,8 @@ function Home() {
         open={isSigninOpen}
         onCancel={() => setIsSigninOpen(false)}
         footer={null}
-        title="Se connecter"
         centered
+        className="my-custom-modal"
       >
         <Signin onFinish={handleSignin} />
       </Modal>
