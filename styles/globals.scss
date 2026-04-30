@@ -111,6 +111,12 @@ button {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
     color:$blanc !important;
+
+}
+@media (max-width:500px) {
+  h1 {
+    font-size:2em;
+  }
 }
 // Styles pour écraser Ant Design dans les modales
 .my-custom-modal {

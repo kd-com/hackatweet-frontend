@@ -18,8 +18,8 @@ function LeftSide() {
         <div className={styles.user_info}>
             <img src="/profile_defaut.avif" alt="User" className={styles.user_img} />
             <div className={styles.user_name}>
-                <h3>John Doe</h3>
-                <p>@johndoe</p>
+                <h3>{user.firstname}</h3>
+                <p>@{user.username}</p>
                 <DynamicButton text="Log out" className="logout" onClick={() => handleLogout()}/>
             </div>            
         </div>

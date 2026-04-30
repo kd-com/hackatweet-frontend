@@ -9,8 +9,9 @@ function Signin() {
   const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
     const router = useRouter();
-    const [signinUsername, setSigninUserName] = useState('')
+    const [signinUsername, setSigninUserName] = useState('');
     const [signinPassword, setSigninPassWord] = useState('');
+    const [signinFirstname, setSigninFirstName] = useState();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,8 +22,9 @@ function Signin() {
         })
           .then(response => response.json())
           .then(data => {
+            console.log(data)
             if (data.result) {
-              dispatch(login({username: signinUsername, token: data.token}))
+              dispatch(login({username: signinUsername, token: data.token, firstname: data.firstname}))
               setSigninPassWord('')
               setSigninUserName('');
               router.push('/tweets');
