@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-self.__REACT_LOADABLE_MANIFEST={"../node_modules/next/dist/client/index.js -> ../pages/_error":{"id":"../node_modules/next/dist/client/index.js -> ../pages/_error","files":["static/chunks/node_modules_next_dist_pages__error_js.js"]}}
-=======
-self.__REACT_LOADABLE_MANIFEST={"../node_modules/next/dist/client/index.js -> ../pages/_error":{"id":"../node_modules/next/dist/client/index.js -> ../pages/_error","files":["static/chunks/node_modules_next_dist_pages__error_js.js"]},"_app.js -> antd/lib/modal/style/index.css":{"id":"_app.js -> antd/lib/modal/style/index.css","files":["static/chunks/node_modules_antd_lib_modal_style_index_css.js"]}}
->>>>>>> dev_front
