@@ -1,20 +1,43 @@
 import React from 'react';
 import DynamicButton from "./DynamicButton";
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { login } from '../reducers/user';
+import { useRouter } from 'next/router';
 
-function Signin({ onFinish }) {
+function Signin() {
+  const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value);
+    const router = useRouter();
+    const [signinUsername, setSigninUserName] = useState('')
+    const [signinPassword, setSigninPassWord] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch('http://localhost:3000/users/signin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json'},
+          body: JSON.stringify({username: signinUsername, password: signinPassword}),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.result) {
+              dispatch(login({username: signinUsername, token: data.token}))
+              setSigninPassWord('')
+              setSigninUserName('');
+              router.push('/tweets');
+            }
+          });
+      }
+
   return (
     <div>
         <div>
         <img src="/tweeter.png" alt="Logo" className="logo_img" />
           <h2>Connect to your Hackatweet account</h2>
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const values = Object.fromEntries(formData.entries());
-            onFinish(values);
-          }}>
-            <input type="text" name="username" placeholder="Username" required />
-            <input type="password" name="password" placeholder="Password" required />
+          <form onSubmit={handleSubmit}>
+            <input type="text" name="username" placeholder="Username" required required onChange={(e) => setSigninUserName(e.target.value)} value={signinUsername} />
+            <input type="password" name="password" placeholder="Password" required onChange={(e) => setSigninPassWord(e.target.value)} value={signinPassword} />
             <DynamicButton text="Sign In" className="white_confirm"/>
           </form>
         </div>
