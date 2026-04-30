@@ -1,10 +1,88 @@
+@font-face {
+  font-family: 'Mont-Heavy';
+  src: url('/fonts/Mont-Heavy.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@import './variable.module.scss';
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background:$couleur-bg;
+  color:$blanc;
+  font-size: 1em;
+}
+.bleu {
+  background-color: $couleur-bleu;
+  font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  color: $blanc;
+  border: 2px solid $couleur-bleu;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius:25px;
+  transition:all .8s;
+  text-decoration:none;
+  max-width: 180px;
+  width: 180px;
+  min-width: 180px;
+  text-align: center;
+  display: inline-block;
+  font-size: 1em;
+  &:hover {
+    background-color: $couleur-bg;
+    border-color:$couleur-bleu;
+  }
 }
 
-* {
-  box-sizing: border-box;
+.white {
+  background-color: $blanc;
+  font-size: 1em;
+  font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  color: $couleur-bleu;
+  border: 2px solid $blanc;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius:25px;
+  transition:all .8s;
+  text-decoration:none;
+  max-width: 180px;
+  width:180px;
+  min-width: 180px;
+  text-align: center;
+  display: inline-block;
+  &:hover {
+    background-color: $couleur-bg;
+    color:$blanc;
+    border-color:$couleur-bleu;
+  }
 }
+.white_confirm {
+  background-color: $blanc;
+  font-size: 1em;
+  font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  color: $couleur-bg;
+  border: 2px solid $blanc;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius:25px;
+  transition:all .8s;
+  text-decoration:none;
+  max-width: 180px;
+  width:180px;
+  min-width: 180px;
+  text-align: center;
+  display: inline-block;
+  &:hover {
+    background-color: $couleur-bleu;
+    color:$blanc;
+    border-color:$couleur-bleu;
+  }
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Mont-Heavy', Verdana, Geneva, Tahoma, sans-serif;
+}
+
