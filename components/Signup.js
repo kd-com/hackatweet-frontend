@@ -14,26 +14,42 @@ function Signup({ onFinish }) {
   const [signupFirstname, setSignupFirstName] = useState('')
   const [signupUsername, setSignupUserName] = useState('')
   const [signupPassword, setSignupPassWord] = useState('');
+  const [error, setError] = useState('');
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch(API.signup, {
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+
+  try {
+    const response = await fetch(API.signup, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify({username: signupUsername, password: signupPassword, firstname: signupFirstname}),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.result) {
-          dispatch(login({username: signupUsername, token: data.token}))
-          setSignupFirstName('')
-          setSignupPassWord('')
-          setSignupUserName('');
-          router.push('/tweets');
-        }
-      });
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: signupUsername,
+        password: signupPassword,
+        firstname: signupFirstname,
+      }),
+    });
+
+    if (!response.ok) throw new Error(`Erreur serveur : ${response.status}`);
+
+    const data = await response.json();
+
+    if (data.result) {
+      dispatch(login({ username: signupUsername, token: data.token, firstname: signupFirstname }));
+      setSignupFirstName('');
+      setSignupPassWord('');
+      setSignupUserName('');
+      router.push('/tweets');
+    } else {
+      setError(data.error || 'Inscription impossible, réessayez');
+    }
+  } catch (err) {
+    setError('Impossible de contacter le serveur');
+    console.error(err);
   }
+};
 
   
 
@@ -46,6 +62,7 @@ function Signup({ onFinish }) {
             <input type="text" name="firstname" placeholder="First Name" required onChange={(e) => setSignupFirstName(e.target.value)} value={signupFirstname} />
             <input type="text" name="username" placeholder="Username" required onChange={(e) => setSignupUserName(e.target.value)} value={signupUsername} />
             <input type="password" name="password" placeholder="Password" required onChange={(e) => setSignupPassWord(e.target.value)} value={signupPassword}/>
+            {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
             <DynamicButton text="Sign Up" className="white_confirm"/>
           </form>
         </div>

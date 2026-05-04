@@ -13,25 +13,36 @@ function Signin() {
     const [signinUsername, setSigninUserName] = useState('');
     const [signinPassword, setSigninPassWord] = useState('');
     const [signinFirstname, setSigninFirstName] = useState();
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        fetch(API.signin, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json'},
-          body: JSON.stringify({username: signinUsername, password: signinPassword}),
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data)
-            if (data.result) {
-              dispatch(login({username: signinUsername, token: data.token, firstname: data.firstname}))
-              setSigninPassWord('')
-              setSigninUserName('');
-              router.push('/tweets');
-            }
-          });
-      }
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+
+  try {
+    const response = await fetch(API.signin, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: signinUsername, password: signinPassword }),
+    });
+
+    if (!response.ok) throw new Error(`Erreur serveur : ${response.status}`);
+
+    const data = await response.json();
+
+    if (data.result) {
+      dispatch(login({ username: signinUsername, token: data.token, firstname: data.firstname }));
+      setSigninPassWord('');
+      setSigninUserName('');
+      router.push('/tweets');
+    } else {
+      setError('Identifiants incorrects');
+    }
+  } catch (err) {
+    setError('Impossible de contacter le serveur');
+    console.error(err);
+  }
+};
 
   return (
     <div>
@@ -41,6 +52,7 @@ function Signin() {
           <form onSubmit={handleSubmit}>
             <input type="text" name="username" placeholder="Username" required required onChange={(e) => setSigninUserName(e.target.value)} value={signinUsername} />
             <input type="password" name="password" placeholder="Password" required onChange={(e) => setSigninPassWord(e.target.value)} value={signinPassword} />
+            {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
             <DynamicButton text="Sign In" className="white_confirm"/>
           </form>
         </div>
