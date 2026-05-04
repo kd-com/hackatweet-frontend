@@ -1,18 +1,20 @@
-import styles from "../styles/Feed.module.scss";
 import { useState, useEffect } from "react";
-import PublishTweet from "./PublishTweet";
-import DisplayTweet from "./DisplayTweet";
-import { API } from "../lib/api";
+import { useRouter } from "next/router"; // <-- Utilise next/router
+import DisplayTweet from "../../components/DisplayTweet";
+import { API } from "../../lib/api";
 
-function Feed() {
+function HashtagPage() {
+  const router = useRouter();
+  const { tag } = router.query; // Récupère le paramètre tag de l'URL
   const [tweets, setTweets] = useState([]);
   const [likedTweets, setLikedTweets] = useState([]);
 
-  // Récupère les tweets
   useEffect(() => {
-    const fetchTweets = async () => {
+    if (!tag) return; // Attend que tag soit disponible
+
+    const fetchTweetsByHashtag = async () => {
       try {
-        const response = await fetch(API.tweetList);
+        const response = await fetch(`${API.tweetList}/hashtag/${tag}`);
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status}`);
         }
@@ -24,10 +26,10 @@ function Feed() {
         console.error("Erreur :", error);
       }
     };
-    fetchTweets();
-  }, []);
 
-  // Gère les likes
+    fetchTweetsByHashtag();
+  }, [tag]);
+
   const updateLikedTweet = async (tweetId) => {
     try {
       const token = localStorage.getItem("token");
@@ -53,9 +55,13 @@ function Feed() {
     }
   };
 
+  if (!tag) {
+    return <div>Chargement...</div>;
+  }
+
   return (
-    <div className={styles.feed}>
-      <PublishTweet />
+    <div className="hashtag-page">
+      <h1>#{tag}</h1>
       {tweets.length > 0 ? (
         tweets.map((tweet) => (
           <DisplayTweet
@@ -70,10 +76,10 @@ function Feed() {
           />
         ))
       ) : (
-        <p className={styles.noTweets}>Aucun tweet à afficher.</p>
+        <p>Aucun tweet avec le hashtag <strong>#{tag}</strong>.</p>
       )}
     </div>
   );
 }
 
-export default Feed;
+export default HashtagPage;

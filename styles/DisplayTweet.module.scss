@@ -1,0 +1,36 @@
+@import './variable.module.scss';
+
+.displayTweet {
+     border-bottom: 1px solid rgba($blanc, .5);
+    padding: 2em;
+    &:last-child {
+        border-bottom:0;
+    }
+    .userDisplay {
+        display:flex;
+        align-items: center;
+       
+        img {
+            width:40px;
+            height:40px;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius:100%;
+            margin-right:10px;
+
+
+        }
+        span {
+            color:rgba($blanc, .5)
+        }
+    }
+    a.hashtag {
+    color: #1da1f2; // Bleu Twitter
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
