@@ -4,10 +4,8 @@
     border-right:1px solid rgba($blanc, .5);
     display:flex;
     flex-direction: column;
-    height:calc(100vh - 4em);
-    justify-content: space-between;
+    height:100%;
     align-content: space-between;
-    padding: 2em 0 2em 2em;
-    max-width:45%;
-    width:45%;
+    max-width:50%;
+    width:50%;
 }

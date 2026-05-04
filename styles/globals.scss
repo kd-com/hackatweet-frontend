@@ -118,6 +118,15 @@ h1, h2, h3, h4, h5, h6 {
     font-size:2em;
   }
 }
+a {
+    color: #1da1f2; // Bleu Twitter
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 // Styles pour écraser Ant Design dans les modales
 .my-custom-modal {
   text-align: center !important;
@@ -191,3 +200,13 @@ form {
   }
 }
 
+.hashtag-page {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+
+  h1 {
+    color: #1da1f2;
+    margin-bottom: 20px;
+  }
+}
