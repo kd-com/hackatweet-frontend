@@ -1,0 +1,69 @@
+@import './variable.module.scss';
+.pageContainer {
+    display:flex;
+    width:100vw;
+    height:100vh;
+    flex-wrap: wrap;
+    gap:0;
+    justify-content: space-between;
+}
+
+.tweet {
+    border-top: 1px solid rgba($blanc, .5);
+}
+
+.hashtagContent {
+    width: 45%;
+    border-left: 1px solid rgba($blanc, .5);
+    border-right:1px solid rgba($blanc, .5);
+}
+
+.user {
+    margin: 10px;
+}
+
+.content {
+    margin: 10px;
+}
+
+.title {
+    margin-left: 10px;
+}
+
+.searchBar {
+    width: 80%;
+    height: 30px;
+    border-radius: 20px;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.firstname {
+    margin: 5px;
+}
+
+.user_name {
+    display: flex;
+    align-items: center;
+}
+
+.user_info {
+    display: flex;
+    align-items: center;
+}
+
+.user_img {
+    width: 50px;
+    border-radius: 100%;
+    height: 50px;
+    object-fit:cover;
+}
+
+.username {
+    opacity: 0.6;
+}
