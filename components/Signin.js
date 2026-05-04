@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { login } from '../reducers/user';
 import { useRouter } from 'next/router';
+import { API } from '../lib/api';
 
 function Signin() {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function Signin() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('http://localhost:3000/users/signin', {
+        fetch(API.signin, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json'},
           body: JSON.stringify({username: signinUsername, password: signinPassword}),
