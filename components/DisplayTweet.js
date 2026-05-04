@@ -26,7 +26,7 @@ function DisplayTweet({ tweet, onDelete, onLike }) {
     <div className={styles.tweetCard}>
       <div className={styles.tweetHeader}>
         <img
-          src="/profile_defaut.avif"
+          src={user.url_profile}
           alt="avatar"
           className={styles.avatar}
         />
