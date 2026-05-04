@@ -1,77 +1,89 @@
 import styles from "../styles/Feed.module.scss";
 import { useState, useEffect } from "react";
-import PublishTweet from "./PublishTweet";
+import { useSelector } from "react-redux";
+import { API } from '../lib/api';
 import DisplayTweet from "./DisplayTweet";
-import { API } from "../lib/api";
+import PublishTweet from "./PublishTweet";
+
 
 function Feed() {
+  const user = useSelector((state) => state.user.value);
   const [tweets, setTweets] = useState([]);
-  const [likedTweets, setLikedTweets] = useState([]);
 
-  // Récupère les tweets
   useEffect(() => {
-    const fetchTweets = async () => {
-      try {
-        const response = await fetch(API.tweetList);
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP : ${response.status}`);
-        }
-        const data = await response.json();
-        if (data.result && Array.isArray(data.tweets)) {
-          setTweets(data.tweets);
-        }
-      } catch (error) {
-        console.error("Erreur :", error);
-      }
-    };
-    fetchTweets();
+    fetch(API.tweetList)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result) setTweets(data.tweets);
+      })
+      .catch(() => console.error("Erreur lors du chargement des tweets"));
   }, []);
 
-  // Gère les likes
-  const updateLikedTweet = async (tweetId) => {
+  // Appelé par PublishTweet quand un tweet est posté avec succès
+  const handleTweetPosted = (newTweet) => {
+    setTweets((prev) => [newTweet, ...prev]);
+  };
+
+  const handleDelete = async (tweetId) => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      const response = await fetch(`${API.tweetList}/like/${tweetId}`, {
-        method: "PUT",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+      const res = await fetch(`${API.deleteTweet}/${tweetId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${user.token}` },
       });
+      const data = await res.json();
+      if (data.result) {
+        setTweets((prev) => prev.filter((t) => t._id !== tweetId));
+      }
+    } catch {
+      console.error("Erreur lors de la suppression");
+    }
+  };
 
-      if (response.ok) {
-        setLikedTweets(prev =>
-          prev.includes(tweetId)
-            ? prev.filter(id => id !== tweetId)
-            : [...prev, tweetId]
+  const handleLike = async (tweetId) => {
+    try {
+      const res = await fetch(`${API.likeTweet}/${tweetId}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const data = await res.json();
+
+      if (data.result) {
+        setTweets((prev) =>
+          prev.map((tweet) => {
+            if (tweet._id !== tweetId) return tweet;
+            const alreadyLiked = tweet.likes.includes(user.username);
+            return {
+              ...tweet,
+              likes: alreadyLiked
+                ? tweet.likes.filter((id) => id !== user.username)
+                : [...tweet.likes, user.username],
+            };
+          })
         );
       }
-    } catch (error) {
-      console.error("Erreur like :", error);
+    } catch {
+      console.error("Erreur lors du like");
     }
   };
 
   return (
     <div className={styles.feed}>
-      <PublishTweet />
-      {tweets.length > 0 ? (
-        tweets.map((tweet) => (
-          <DisplayTweet
-            key={tweet._id}
-            tweetId={tweet._id}
-            content={tweet.content}
-            firstname={tweet.user?.firstname || "Utilisateur"}
-            username={tweet.user?.username || "unknown"}
-            createdAt={tweet.createdAt}
-            isLiked={likedTweets.includes(tweet._id)}
-            updateLikedTweet={updateLikedTweet}
-          />
-        ))
-      ) : (
-        <p className={styles.noTweets}>Aucun tweet à afficher.</p>
-      )}
+      <PublishTweet onTweetPosted={handleTweetPosted} />
+
+      <div className={styles.tweetList}>
+        {tweets.length === 0 ? (
+          <p className={styles.empty}>Aucun tweet pour l'instant…</p>
+        ) : (
+          tweets.map((tweet) => (
+            <DisplayTweet
+              key={tweet._id}
+              tweet={tweet}
+              onDelete={handleDelete}
+              onLike={handleLike}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }

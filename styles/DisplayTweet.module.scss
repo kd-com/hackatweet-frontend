@@ -1,36 +1,127 @@
 @import './variable.module.scss';
+.tweetCard {
+  border-bottom: 1px solid rgba($blanc, .5);
+  padding: 16px;
+  transition: background 0.15s;
 
-.displayTweet {
-     border-bottom: 1px solid rgba($blanc, .5);
-    padding: 2em;
-    &:last-child {
-        border-bottom:0;
-    }
-    .userDisplay {
-        display:flex;
-        align-items: center;
-       
-        img {
-            width:40px;
-            height:40px;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius:100%;
-            margin-right:10px;
+  &:last-child {
+    border-bottom:0;
+  }
 
-
-        }
-        span {
-            color:rgba($blanc, .5)
-        }
-    }
-    a.hashtag {
-    color: #1da1f2; // Bleu Twitter
-    text-decoration: none;
-    font-weight: 500;
-
-    &:hover {
-      text-decoration: underline;
-    }
+  &:hover {
+    background: rgba(255, 255, 255, 0.03);
   }
 }
+
+.tweetHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.firstname {
+  font-weight: 700;
+  font-size: 15px;
+  color: $blanc;
+}
+
+.username {
+  font-size: 13px;
+  color: $gris;
+}
+
+.tweetContent {
+  font-size: 15px;
+  color: $blanc;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.hashtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.hashtag {
+  font-size: 13px;
+  color: $couleur-bleu;
+}
+
+.tweetFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tweetFooterBtn {
+  display:flex;
+
+  .likeBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: $gris;
+    padding: 4px 8px;
+    border-radius: 20px;
+    transition: background 0.15s, color 0.15s;
+  
+    &:hover {
+      background: rgba(249, 24, 128, 0.1);
+      color: #f91880;
+    }
+  
+    &.liked {
+      color: #f91880;
+    }
+  }
+  
+  .likeCount {
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: $gris;
+    padding: 4px 8px;
+    border-radius: 20px;
+    transition: background 0.15s, color 0.15s;
+  
+    &:hover {
+      color: $blanc;
+    }
+  }
+
+}
+.date {
+    font-size: 12px;
+    color: $gris;
+  }

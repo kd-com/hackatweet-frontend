@@ -1,97 +1,72 @@
 import styles from "../styles/DisplayTweet.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { formatDistanceToNow } from "date-fns";
-import { fr } from "date-fns/locale";
-import Link from "next/link"; // <-- Utilise next/link
+import { useSelector } from "react-redux";
+import { API } from '../lib/api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faH, faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-function DisplayTweet(props) {
-  const handleLikedTweet = () => {
-    if (props.tweetId) props.updateLikedTweet(props.tweetId);
-  };
 
-  // Fonction pour séparer le texte et les hashtags
-  const formatContentWithHashtags = () => {
-    if (!props.content) return [];
+function DisplayTweet({ tweet, onDelete, onLike }) {
+  const user = useSelector((state) => state.user.value);
 
-    const parts = [];
-    const regex = /#(\w+)/g;
-    let lastIndex = 0;
-    let match;
+  const isOwner = tweet.user?.username === user.username;
+  const isLiked = tweet.likes?.includes(user.username); // username stocké dans le store Redux
+  const likesCount = tweet.likes?.length ?? 0;
 
-    while ((match = regex.exec(props.content)) !== null) {
-      if (match.index > lastIndex) {
-        parts.push({
-          type: "text",
-          value: props.content.substring(lastIndex, match.index),
-        });
-      }
-      parts.push({
-        type: "hashtag",
-        value: match[0],
-        tag: match[1],
-      });
-      lastIndex = match.index + match[0].length;
-    }
-
-    if (lastIndex < props.content.length) {
-      parts.push({
-        type: "text",
-        value: props.content.substring(lastIndex),
-      });
-    }
-
-    return parts;
-  };
-
-  const getFormattedDate = () => {
-    if (!props.createdAt) return "il y a quelques instants";
-    try {
-      const date = new Date(props.createdAt);
-      return isNaN(date.getTime())
-        ? "date invalide"
-        : formatDistanceToNow(date, { locale: fr, addSuffix: true });
-    } catch {
-      return "date invalide";
-    }
-  };
+  const formattedDate = new Date(tweet.createdAt).toLocaleString("fr-FR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
-    <div className={styles.displayTweet}>
-      <div className={styles.userDisplay}>
+    <div className={styles.tweetCard}>
+      <div className={styles.tweetHeader}>
         <img
           src="/profile_defaut.avif"
-          alt={`${props.firstname || "Utilisateur"} ${props.username || ""}`}
-          className={styles.user_img}
+          alt="avatar"
+          className={styles.avatar}
         />
-        <p>
-          {props.firstname || "Utilisateur"}
-          <span>
-            @{props.username || "unknown"} - {getFormattedDate()}
-          </span>
-        </p>
+        <div className={styles.authorInfo}>
+          <span className={styles.firstname}>{tweet.user?.firstname}</span>
+          <span className={styles.username}>@{tweet.user?.username}</span>
+        </div>
       </div>
-      <p className={styles.content}>
-        {formatContentWithHashtags().map((part, index) => (
-          part.type === "hashtag" ? (
-            <Link
-              key={index}
-              href={`/hashtag/${part.tag}`} // <-- Utilise href pour Next.js
-              className={styles.hashtag}
-            >
-              {part.value}
-            </Link>
-          ) : (
-            <span key={index}>{part.value}</span>
-          )
-        ))}
-      </p>
-      <div className={styles.actions}>
-        <FontAwesomeIcon
-          icon={faHeart}
-          onClick={handleLikedTweet}
-          className={`${styles.like} ${props.isLiked ? styles.liked : ""}`}
-        />
+
+      <p className={styles.tweetContent}>{tweet.content}</p>
+
+      {tweet.hashtags?.length > 0 && (
+        <div className={styles.hashtags}>
+          {tweet.hashtags.map((tag, i) => (
+            <span key={i} className={styles.hashtag}>
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className={styles.tweetFooter}>
+        <div className={styles.tweetFooterBtn}>
+          <button
+          className={`${styles.likeBtn} ${isLiked ? styles.liked : ""}`}
+          onClick={() => onLike(tweet._id)}
+        >
+          <FontAwesomeIcon icon={faHeart} />
+          <span className={styles.likeCount}>{likesCount}</span>
+        </button>
+          {isOwner && (
+          <button
+            className={styles.deleteBtn}
+            onClick={() => onDelete(tweet._id)}
+            title="Supprimer"
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        )}
+        </div>
+        
+        <span className={styles.date}>{formattedDate}</span>
       </div>
     </div>
   );
