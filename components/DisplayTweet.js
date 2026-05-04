@@ -2,11 +2,13 @@ import styles from "../styles/DisplayTweet.module.scss";
 import { useSelector } from "react-redux";
 import { API } from '../lib/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faH, faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
 
 
 function DisplayTweet({ tweet, onDelete, onLike }) {
   const user = useSelector((state) => state.user.value);
+  const router = useRouter();
 
   const isOwner = tweet.user?.username === user.username;
   const isLiked = tweet.likes?.includes(user.username); // username stocké dans le store Redux
@@ -39,7 +41,8 @@ function DisplayTweet({ tweet, onDelete, onLike }) {
       {tweet.hashtags?.length > 0 && (
         <div className={styles.hashtags}>
           {tweet.hashtags.map((tag, i) => (
-            <span key={i} className={styles.hashtag}>
+            <span key={i} className={styles.hashtag} onClick={() => router.push(`/hashtags/${tag}`)}
+          style={{ cursor: "pointer" }}>
               #{tag}
             </span>
           ))}
