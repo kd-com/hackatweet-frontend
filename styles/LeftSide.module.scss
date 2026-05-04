@@ -8,6 +8,19 @@
     padding: 2em 0 2em 2em;
     max-width:15%;
     width:15%;
+    @media (max-width:500px) {
+        width:100%;
+        max-width:100%;
+        height:auto;
+        flex-direction: row;
+        position:absolute;
+        bottom:0;
+        background:$couleur-bg;
+        justify-content: space-between;
+        border-top:1px solid rgba($blanc, .5);
+        align-content: center;
+
+    }
 
     .logo {
         text-align:left;
@@ -22,12 +35,17 @@
             float:left;
             width:50px;
             height:auto;
+            rotate: 180deg;
         
         }
     }
     .user {
         font-size: 1em;
         text-align: left;
+        @media (max-width:500px) {
+            width:250px;
+            text-align: center;
+        }
 
         .user_info {
             display:flex;

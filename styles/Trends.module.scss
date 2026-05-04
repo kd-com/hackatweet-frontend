@@ -3,9 +3,36 @@
     display:flex;
     flex-direction: column;
     height:calc(100vh - 4em);
-    justify-content: space-between;
-    align-content: space-between;
-    padding: 2em 0 2em 2em;
+    padding: 2em;
     max-width:23%;
     width:23%;
+    @media (max-width:960px) {
+        width:100%;
+        max-width: 100%;
+        border-top:1px solid rgba($blanc, .5)
+    }
+
+    .trend {
+        background: rgba(255, 255, 255, 0.03);
+        padding:1em 2em;
+        border-radius:10px;
+        margin-bottom:10px;
+        transition:all .8s;
+        &:last-child {
+            margin-bottom:0;
+        }
+        &:hover {
+            background:rgba(255, 255, 255, 0.08)
+        }
+        p {
+            font-weight: 900;
+            padding:0;
+            margin:0;
+        }
+        span {
+            color:$gris;
+            font-size: small;
+        }
+
+    }
 }

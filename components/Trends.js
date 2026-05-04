@@ -27,12 +27,13 @@ function Trends() {
 
   return (
     <div className={styles.trends}>
+      <h2>Trends</h2>
       
 
       {error && <p>{error}</p>}
 
       {trends.map((trend, i) => (
-        <div 
+        <div className={styles.trend} 
           key={i}
           onClick={() => router.push(`/hashtags/${trend.hashtag}`)}
           style={{ cursor: "pointer" }}

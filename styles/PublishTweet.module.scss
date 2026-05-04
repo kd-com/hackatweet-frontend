@@ -1,11 +1,12 @@
+@import './variable.module.scss';
 .publishTweet {
   padding: 16px;
-  border-bottom: 1px solid #2f3336;
+  border-bottom: 1px solid rgba($blanc, .5);
 
   h1 {
     font-size: 20px;
     font-weight: 700;
-    color: #e7e9ea;
+    color: $blanc;
     margin: 0 0 16px 0;
   }
 
@@ -38,7 +39,7 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: #e7e9ea;
+  color: $blanc;
   font-size: 18px;
   font-family: inherit;
   resize: none;
@@ -47,7 +48,7 @@
   width:100%;
 
   &::placeholder {
-    color: #71767b;
+    color: $gris;
   }
 }
 
@@ -56,14 +57,14 @@
   align-items: center;
   justify-content: flex-end;
   gap: 14px;
-  border-top: 1px solid #2f3336;
+  border-top: 1px solid rgba($blanc, .5);
   padding-top: 10px;
   width: 100%;
 }
 
 .counter {
   font-size: 14px;
-  color: #71767b;
+  color: $gris;
 
   &.warn {
     color: #ffd400;

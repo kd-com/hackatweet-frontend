@@ -2,67 +2,108 @@ import styles from "../../styles/Hashtag.module.scss";
 import { useState, useEffect } from "react";
 import LeftSide from "../../components/LeftSide";
 import Trends from "../../components/Trends";
-import { API } from '../../lib/api';
-import { useRouter } from 'next/router';
+import DisplayTweet from "../../components/DisplayTweet";
+import { API } from "../../lib/api";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 function HashtagPage() {
-    const router = useRouter();
-    const { tag } = router.query;
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.value);
+  const router = useRouter();
+  const { tag } = router.query;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
 
-    const [hashtag, setHashtag] = useState('');
-    const [tweets, setTweets] = useState([]);
-    const [error, setError] = useState('');
+  const [hashtag, setHashtag] = useState("");
+  const [tweets, setTweets] = useState([]);
+  const [error, setError] = useState("");
 
-    const searchHashtag = () => {
-        if (!hashtag) return;
-        router.push(`/hashtags/${hashtag}`);
-    };
+  const searchHashtag = () => {
+    if (!hashtag) return;
+    router.push(`/hashtags/${hashtag}`);
+  };
 
-    useEffect(() => {
-        if (!tag) return;
+  useEffect(() => {
+    if (!tag) return;
 
-        setHashtag(tag); // sync input avec URL
+    setHashtag(tag); // sync input avec URL
 
-        fetch(`${API.getHashtag}/${tag}`)
-        .then(res => res.json())
-        .then(data => {
-            if (!data.result) {
-                setError("No Tweet found");
-                setTweets([]);
-            } else {
-                setTweets(data.tweets);
-                setError('');
-            }
-        });
-    }, [tag]);
+    fetch(`${API.getHashtag}/${tag}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.result) {
+          setError("No Tweet found");
+          setTweets([]);
+        } else {
+          setTweets(data.tweets);
+          setError("");
+        }
+      });
+  }, [tag]);const handleDelete = async (tweetId) => {
+    try {
+      const res = await fetch(`${API.deleteTweet}/${tweetId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const data = await res.json();
+      if (data.result) {
+        setTweets((prev) => prev.filter((t) => t._id !== tweetId));
+      }
+    } catch {
+      console.error("Erreur lors de la suppression");
+    }
+  };
 
-    if (!tag) return <p>Loading...</p>;
+  const handleLike = async (tweetId) => {
+    try {
+      const res = await fetch(`${API.likeTweet}/${tweetId}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const data = await res.json();
 
-    return (
-        <div className={styles.pageContainer}>
-            <LeftSide />
+      if (data.result) {
+        setTweets((prev) =>
+          prev.map((tweet) => {
+            if (tweet._id !== tweetId) return tweet;
+            const alreadyLiked = tweet.likes.includes(user.username);
+            return {
+              ...tweet,
+              likes: alreadyLiked
+                ? tweet.likes.filter((id) => id !== user.username)
+                : [...tweet.likes, user.username],
+            };
+          })
+        );
+      }
+    } catch {
+      console.error("Erreur lors du like");
+    }
+  };
 
-            <div className={styles.hashtagContent}>
-                <h2 className={styles.title}>Hashtag</h2>
-                <div className={styles.search}>
-                    <input 
-                        className={styles.searchBar}
-                        value={hashtag}
-                        onChange={(e) => setHashtag(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                searchHashtag();
-                            }
-                        }}
-                    />
-                </div>
+  if (!tag) return <p>Loading...</p>;
 
-                {error && <p>{error}</p>}
+  return (
+    <div className={styles.pageContainer}>
+      <LeftSide />
 
-                {tweets.map((tweet, i) => (
+      <div className={styles.hashtagContent}>
+        <h2 className={styles.title}>Hashtag</h2>
+        <form className={styles.search}>
+          <input
+            className={styles.searchBar}
+            value={hashtag}
+            onChange={(e) => setHashtag(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                searchHashtag();
+              }
+            }}
+          />
+        </form>
+
+        {error && <p>{error}</p>}
+
+        {/* {tweets.map((tweet, i) => (
                     <div className={styles.tweet} key={i}>
                         <div className={styles.user}>
                             <div className={styles.user_info}>
@@ -79,12 +120,26 @@ function HashtagPage() {
                         </div>
                         <p className={styles.content}>{tweet.content}</p>
                     </div>
-                ))}
-            </div>
-
-            <Trends />
+                ))} */}
+        <div className={styles.feed}>
+          {tweets.length === 0 ? (
+            <p className={styles.empty}>Aucun tweet pour l'instant…</p>
+          ) : (
+            tweets.map((tweet) => (
+              <DisplayTweet
+                key={tweet._id}
+                tweet={tweet}
+                onDelete={handleDelete}
+                onLike={handleLike}
+              />
+            ))
+          )}
         </div>
-    );
+      </div>
+
+      <Trends />
+    </div>
+  );
 }
 
 export default HashtagPage;
