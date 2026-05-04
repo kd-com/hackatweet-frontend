@@ -27,6 +27,7 @@ function Trends() {
 
   return (
     <div className={styles.trends}>
+      
 
       {error && <p>{error}</p>}
 
