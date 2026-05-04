@@ -70,7 +70,7 @@ function PublishTweet({ onTweetPosted }) {
 
         <div className={styles.footer}>
           <span className={`${styles.counter} ${isOverLimit ? styles.over : charCount > 260 ? styles.warn : ""}`}>
-            {charCount}/280
+            {isOverLimit ? "Votre tweet est trop long..." : `${charCount}/280`}
           </span>
           <DynamicButton
             text="Tweet"
