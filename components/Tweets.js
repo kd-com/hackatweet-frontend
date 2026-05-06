@@ -2,7 +2,7 @@ import styles from "../styles/Tweets.module.scss";
 import DynamicButton from "./DynamicButton";
 import { useState } from "react";
 import LeftSide from "./LeftSide";
-import Feed from "./Feed";
+import Feed from "./Feed"
 import Trends from "./Trends";
 
 function Tweetsdisplay() {
